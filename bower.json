@@ -1,5 +1,5 @@
 {
-  "name": "ember-cli-opener",
+  "name": "ember-cli-open",
   "dependencies": {
     "ember": "2.2.0",
     "ember-cli-shims": "0.1.0",

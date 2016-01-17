@@ -1,7 +1,7 @@
 {
-  "name": "ember-cli-opener",
+  "name": "ember-cli-open",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Opens ember-cli application in the browser.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember try:testall"
+    "test": "echo 0;"
   },
   "repository": "",
   "engines": {
@@ -41,7 +41,9 @@
     "ember-addon"
   ],
   "dependencies": {
-    "ember-cli-babel": "^5.1.5"
+    "ember-cli-babel": "^5.1.5",
+    "opener": "^1.4.1",
+    "clean-base-url": "^1.0.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

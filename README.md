@@ -1,6 +1,6 @@
 # Ember-cli-opener
 
-This README outlines the details of collaborating on this Ember addon.
+Opens ember-cli application in the browser.
 
 ## Installation
 
