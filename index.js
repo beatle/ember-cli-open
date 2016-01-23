@@ -7,24 +7,30 @@ var displayHost = function(specifiedHost) {
   return specifiedHost || 'localhost';
 };
 
+// extracted from https://github.com/ember-cli/ember-cli/blob/master/lib/tasks/server/express-server.js#L146
+var urlFromOptions = function(opts) {
+  var baseURL = cleanBaseURL(opts.baseURL);
+
+  var url = 'http' + (opts.ssl ? 's' : '') +
+    '://' + displayHost(opts.host) +
+    ':' + opts.port + baseURL;
+
+  return url;
+};
+
 module.exports = {
-  name: 'ember-cli-open',
+  name: 'ember-cli-opener',
 
   urlToOpen: undefined,
 
   outputReady: function() {
-    if (this.urlToOpen) {
+    if (this._autoOpen && this.urlToOpen) {
       opener(this.urlToOpen);
     }
   },
 
   serverMiddleware: function(startOptions) {
-    var opts = startOptions.options;
-
-    // extracted from https://github.com/ember-cli/ember-cli/blob/master/lib/tasks/server/express-server.js#L146
-    var baseURL = cleanBaseURL(opts.baseURL);
-    this.urlToOpen = 'http' + (opts.ssl ? 's' : '') +
-      '://' + displayHost(opts.host) + ':' +
-      opts.port + baseURL;
+    this._autoOpen = startOptions.options.autoOpen;
+    this.urlToOpen = urlFromOptions(startOptions.options);
   }
 };

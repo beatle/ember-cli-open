@@ -1,6 +1,18 @@
-# Ember-cli-opener
+# ember-cli-open
 
 Opens ember-cli application in the browser.
+
+You can disable auto-openning on a `serve` command by setting the `autoOpen`to false in your `.ember-cli`:
+```
+{
+  ...
+  "autoOpen": false
+}
+```
+
+#### TODO:
+[] - implement open command
+[] - tests???
 
 ## Installation
 
