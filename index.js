@@ -24,13 +24,19 @@ module.exports = {
   urlToOpen: undefined,
 
   outputReady: function() {
-    if (this._autoOpen && this.urlToOpen) {
+    if (this._openOnServe && this.urlToOpen) {
       opener(this.urlToOpen);
     }
   },
 
   serverMiddleware: function(startOptions) {
-    this._autoOpen = startOptions.options.autoOpen;
+    this._openOnServe = startOptions.options.autoOpen;
     this.urlToOpen = urlFromOptions(startOptions.options);
+  },
+
+  includedCommands: function() {
+    return {
+      rename: require('./lib/commands/open')
+    };
   }
 };
