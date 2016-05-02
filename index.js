@@ -23,9 +23,14 @@ module.exports = {
 
   urlToOpen: undefined,
 
+  _openOnServe: undefined,
+
+  _opened: undefined,
+
   outputReady: function() {
-    if (this._openOnServe && this.urlToOpen) {
+    if (this._openOnServe && !this._opened && this.urlToOpen) {
       opener(this.urlToOpen);
+      this._opened = true;
     }
   },
 
