@@ -1,4 +1,5 @@
 # ember-cli-open
+
 [![Build Status](https://travis-ci.org/ro0gr/ember-cli-open.svg?branch=master)](https://travis-ci.org/ro0gr/ember-cli-open)
 
 Opens ember-cli application in the browser.
@@ -40,6 +41,6 @@ npm i --save-dev ember-cli-open
 
 ## Running Tests
 
-There are no tests currently here :/
+Run `npm test`
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
