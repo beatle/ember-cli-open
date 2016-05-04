@@ -1,4 +1,5 @@
 # ember-cli-open
+[![Build Status](https://travis-ci.org/ro0gr/ember-cli-open.svg?branch=master)](https://travis-ci.org/ro0gr/ember-cli-open)
 
 Opens ember-cli application in the browser.
 
