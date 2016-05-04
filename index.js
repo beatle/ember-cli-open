@@ -27,9 +27,19 @@ module.exports = {
 
   _opened: undefined,
 
+  included: function (app) {
+    this._super.included.apply(this, arguments);
+    this.options = app.options.open || {};
+  },
+
   outputReady: function() {
     if (this._openOnServe && !this._opened && this.urlToOpen) {
-      opener(this.urlToOpen);
+      var openerCommand = typeof this.options.command === 'function' ?
+        this.options.command :
+        opener;
+
+      openerCommand(this.urlToOpen);
+
       this._opened = true;
     }
   },
