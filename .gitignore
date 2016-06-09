@@ -5,6 +5,7 @@
 /tmp
 
 # dependencies
+/bin
 /node_modules
 /bower_components
 
@@ -15,3 +16,6 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
+/.vscode
+/test-target
+
