@@ -1,7 +1,7 @@
 ---
 language: node_js
 node_js:
-  - "0.12"
+  - "4.0.0"
 
 sudo: false
 
@@ -14,11 +14,11 @@ matrix:
 
 before_install:
   - "npm config set progress false"
-  - "npm install -g npm@^3"
+  - "npm i -g npm@^3"
 
 install:
-  - npm install -g bower
-  - npm install
+  - npm i -g bower
+  - npm i
 
 script:
-  - npm test
+  - npm t
