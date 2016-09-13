@@ -13,7 +13,8 @@ var expect = chai.expect;
 
 var runCommand = require('ember-cli-internal-test-helpers/lib/helpers/run-command');
 
-const TIME_TO_WAIT_FOR_BUILD = 15000;
+var TIME_TO_WAIT_FOR_BUILD = 5000;
+var TIME_TO_WAIT_FOR_STARTUP = 10000;
 
 var _log = [];
 
@@ -83,8 +84,8 @@ describe('commands/serve --open', function () {
     }
   });
 
-  it('opener should be launched', function () {
-    this.timeout(TIME_TO_WAIT_FOR_BUILD);
+  it('opener should be launched', function() {
+    this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
     return runServer({
       open: true,
       killAfterChildSpawnedPromiseResolution: true,
@@ -98,7 +99,7 @@ describe('commands/serve --open', function () {
   });
 
   it('opener should not be launched', function () {
-    this.timeout(TIME_TO_WAIT_FOR_BUILD);
+    this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
     return runServer({
       open: false,
       onChildSpawned: function () {
