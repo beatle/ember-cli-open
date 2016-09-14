@@ -1,47 +1,43 @@
 {
   "name": "ember-cli-open",
   "version": "0.1.2",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Opens ember-cli application in browser",
   "directories": {
-    "doc": "doc",
-    "test": "tests"
+    "test": "node_tests"
   },
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "mocha node_tests/**/*.js"
+    "test": "mocha tests/*.js"
   },
+  "main": "index.js",
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ro0gr/ember-cli-open.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4.0.0"
   },
-  "author": "",
+  "author": "Ruslan Grabovoy <kudgo.test@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "broccoli-asset-rev": "^2.2.0",
     "chai": "^3.5.0",
-    "ember-ajax": "0.7.1",
-    "ember-cli": "2.3.0",
+    "ember-cli": "^2.8.0",
     "ember-cli-app-version": "^1.0.0",
+    "ember-cli-babel": "^5.1.5",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-htmlbars": "^1.0.1",
-    "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.3.1",
     "ember-cli-internal-test-helpers": "ember-cli/ember-cli-internal-test-helpers",
-    "ember-cli-qunit": "^1.2.1",
-    "ember-cli-release": "0.2.8",
-    "ember-cli-sri": "^2.0.0",
-    "ember-cli-uglify": "^1.2.0",
-    "ember-data": "^2.3.0",
-    "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-disable-proxy-controllers": "^1.0.1",
+    "ember-cli-qunit": "^3.0.0",
+    "ember-cli-release": "^1.0.0-beta.2",
+    "ember-cli-test-loader": "^1.1.0",
     "ember-export-application-global": "^1.0.4",
     "ember-load-initializers": "^0.5.0",
     "ember-resolver": "^2.0.3",
-    "ember-try": "^0.1.2",
     "loader.js": "^4.0.0",
     "mocha": "^2.4.5"
   },
@@ -49,7 +45,6 @@
     "ember-addon"
   ],
   "dependencies": {
-    "ember-cli-babel": "^5.1.5",
     "opener": "^1.4.1"
   },
   "ember-addon": {

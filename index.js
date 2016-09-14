@@ -45,13 +45,13 @@ module.exports = {
   },
 
   serverMiddleware: function(startOptions) {
-    this._openOnServe = startOptions.options.autoOpen;
+    this._openOnServe = startOptions.options.open;
     this.urlToOpen = urlFromOptions(startOptions.options);
   },
 
   includedCommands: function() {
     return {
-      rename: require('./lib/commands/open')
+      open: require('./lib/commands/open')
     };
   }
 };
