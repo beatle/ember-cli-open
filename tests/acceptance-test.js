@@ -73,14 +73,15 @@ describe('commands/serve --open', function () {
     return runCommand('bower', 'install', { log: log })
       .then(() => runCommand('npm', 'uninstall', 'ember-cli-open', { log: log }))
       .then(() => runCommand('npm', 'install', { log: log }))
-      .then(() => runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log }))
-      .catch(e => console.log(e));
+      .then(() => runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log }));
   });
 
   beforeEach(function() {
     try {
       fs.unlinkSync('fake-opener');
     } catch (e) {
+      // eslint-disable no-empty
+      // don't know how to make without catch efectivelly
     }
   });
 
