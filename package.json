@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-open",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Opens ember-cli application in browser",
   "directories": {
     "test": "node_tests"
