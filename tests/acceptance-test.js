@@ -13,7 +13,7 @@ var expect = chai.expect;
 
 var runCommand = require('ember-cli-internal-test-helpers/lib/helpers/run-command');
 
-var TIME_TO_WAIT_FOR_BUILD = 5000;
+var TIME_TO_WAIT_FOR_BUILD = 10000;
 var TIME_TO_WAIT_FOR_STARTUP = 10000;
 
 var _log = [];
