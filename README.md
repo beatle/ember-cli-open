@@ -12,8 +12,8 @@ $ ember o[pen]
 
 ### Auto Open on Serve
 Set `open` option value to `true` in your `.ember-cli` to open application on `serve` by default:
+```
 {
-  ...
   "open": true
 }
 ```
