@@ -46,6 +46,7 @@
     "ember-addon"
   ],
   "dependencies": {
+    "clean-base-url": "^1.0.0",
     "opener": "^1.4.1"
   },
   "ember-addon": {
