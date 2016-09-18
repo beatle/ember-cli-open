@@ -7,13 +7,18 @@ var displayHost = function(specifiedHost) {
   return specifiedHost || 'localhost';
 };
 
-// extracted from https://github.com/ember-cli/ember-cli/blob/250987ec659201056f17f69482466b5360e03853/lib/tasks/server/express-server.js#L147
 var urlFromOptions = function(options) {
+  // extracted from https://github.com/ember-cli/ember-cli/blob/250987ec659201056f17f69482466b5360e03853/lib/tasks/server/express-server.js#L147
   var baseURL = options.rootURL === '' ? '/' : cleanBaseURL(options.rootURL || options.baseURL);
 
   var url = 'http' + (options.ssl ? 's' : '') +
     '://' + displayHost(options.host) +
     ':' + options.port + baseURL;
+
+  if (typeof options.open === 'string') {
+    // remove leading slash cause rootURL contains a trailing one
+    url += options.open.replace(/^\//, '');
+  }
 
   return url;
 };
