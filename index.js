@@ -7,13 +7,13 @@ var displayHost = function(specifiedHost) {
   return specifiedHost || 'localhost';
 };
 
-// extracted from https://github.com/ember-cli/ember-cli/blob/master/lib/tasks/server/express-server.js#L146
-var urlFromOptions = function(opts) {
-  var baseURL = cleanBaseURL(opts.baseURL);
+// extracted from https://github.com/ember-cli/ember-cli/blob/250987ec659201056f17f69482466b5360e03853/lib/tasks/server/express-server.js#L147
+var urlFromOptions = function(options) {
+  var baseURL = options.rootURL === '' ? '/' : cleanBaseURL(options.rootURL || options.baseURL);
 
-  var url = 'http' + (opts.ssl ? 's' : '') +
-    '://' + displayHost(opts.host) +
-    ':' + opts.port + baseURL;
+  var url = 'http' + (options.ssl ? 's' : '') +
+    '://' + displayHost(options.host) +
+    ':' + options.port + baseURL;
 
   return url;
 };
@@ -46,6 +46,7 @@ module.exports = {
 
   serverMiddleware: function(startOptions) {
     this._openOnServe = startOptions.options.open;
+    // need test for rootURL and port
     this.urlToOpen = urlFromOptions(startOptions.options);
   },
 
