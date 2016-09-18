@@ -25,7 +25,7 @@ You can also specify a startup path for your application:
 }
 ```
 will open [http://localhost:4200/step1](#).
-`ember-cli-open` respects a `rootURL` option so in case if it's equal to `some-root-url` [http://localhost:4200/ome-root-url/step1](#) will be opened.
+`ember-cli-open` respects a `rootURL` option so in case if it's equal to `some-root-url` then [http://localhost:4200/ome-root-url/step1](#) will be opened.
 
 ## Installation
 
