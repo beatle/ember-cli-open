@@ -40,12 +40,23 @@ function runServer(commandOptions) {
   if (!commandOptions.log) {
     commandOptions.log = log;
   }
+  commandOptions.killAfterChildSpawnedPromiseResolution = true;
+
+  let openValue;
+  if (typeof commandOptions.open !== 'undefined') {
+    if (typeof commandOptions.open === 'boolean') {
+      openValue = commandOptions.open ? "true" : "false";
+    } else {
+      openValue = commandOptions.open;
+    }
+    delete commandOptions.open;
+  }
 
   return new Promise(function(resolve, reject) {
     return runCommand(
       path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
       'serve',
-      commandOptions.open ? '--open=true' : '',
+      openValue ? ('--open=' + openValue) : '',
       commandOptions
     )
       .then(function() {
@@ -66,7 +77,7 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-describe('commands/serve --open', function () {
+describe('commands/serve', function () {
   before(function() {
     this.timeout(300000);
     process.chdir(targetApp);
@@ -85,11 +96,9 @@ describe('commands/serve --open', function () {
     }
   });
 
-  it('opener should be launched', function() {
+  it('should be launched by default', function() {
     this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
     return runServer({
-      open: true,
-      killAfterChildSpawnedPromiseResolution: true,
       onChildSpawned: function () {
         return delay(TIME_TO_WAIT_FOR_BUILD).then(function () {
           var openerLaunchedCount = getOpenerLaunchedCount();
@@ -99,7 +108,7 @@ describe('commands/serve --open', function () {
     });
   });
 
-  it('opener should not be launched', function () {
+  it('should not be launched if open=false', function () {
     this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
     return runServer({
       open: false,
@@ -108,8 +117,7 @@ describe('commands/serve --open', function () {
           var openerLaunchedCount = getOpenerLaunchedCount();
           expect(openerLaunchedCount).to.equal(0, "Opener not launched");
         });
-      },
-      killAfterChildSpawnedPromiseResolution: true
+      }
     });
   });
 });

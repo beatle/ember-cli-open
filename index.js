@@ -50,6 +50,10 @@ module.exports = {
   },
 
   serverMiddleware: function(startOptions) {
+    if (typeof startOptions.options.open === 'undefined') {
+      startOptions.options.open = true;
+    }
+
     this._openOnServe = startOptions.options.open;
     // need test for rootURL and port
     this.urlToOpen = urlFromOptions(startOptions.options);
