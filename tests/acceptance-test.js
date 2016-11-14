@@ -22,6 +22,15 @@ function log(message) {
   _log.push(message);
 }
 
+function cleanFakeOpener() {
+    try {
+      fs.unlinkSync('fake-opener');
+    } catch (e) {
+      // eslint-disable no-empty
+      // don't know how to make without catch efectivelly
+    }
+}
+
 function getOpenerLaunchedCount() {
     var filePath = path.join(process.cwd(), 'fake-opener');
 
@@ -59,17 +68,17 @@ function runServer(commandOptions) {
       openValue ? ('--open=' + openValue) : '',
       commandOptions
     )
-      .then(function() {
-        throw new Error('The server should not have exited successfully.');
-      })
-      .catch(function(err) {
-        if (err.testingError) {
-          return reject(err.testingError);
-        }
+    .then(function() {
+      throw new Error('The server should not have exited successfully.');
+    })
+    .catch(function(err) {
+      if (err.testingError) {
+        return reject(err.testingError);
+      }
 
-        // This error was just caused by us having to kill the program
-        return resolve();
-      });
+      // This error was just caused by us having to kill the program
+      return resolve();
+    });
   });
 }
 
@@ -82,19 +91,16 @@ describe('commands/serve', function () {
     this.timeout(300000);
     process.chdir(targetApp);
     return runCommand('bower', 'install', { log: log })
-      .then(() => runCommand('npm', 'uninstall', 'ember-cli-open', { log: log }))
-      .then(() => runCommand('npm', 'install', { log: log }))
-      .then(() => runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log }));
+    .then(() => runCommand('npm', 'uninstall', 'ember-cli-open', { log: log }))
+    .then(() => runCommand('npm', 'install', { log: log }))
+    .then(() => runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log }));
   });
 
-  beforeEach(function() {
-    try {
-      fs.unlinkSync('fake-opener');
-    } catch (e) {
-      // eslint-disable no-empty
-      // don't know how to make without catch efectivelly
-    }
-  });
+  after(function() {
+    process.chdir(path.join('..', '..'));
+  }),
+
+  beforeEach(cleanFakeOpener);
 
   it('should be launched by default', function() {
     this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
@@ -116,6 +122,35 @@ describe('commands/serve', function () {
         return delay(TIME_TO_WAIT_FOR_BUILD).then(function () {
           var openerLaunchedCount = getOpenerLaunchedCount();
           expect(openerLaunchedCount).to.equal(0, "Opener not launched");
+        });
+      }
+    });
+  });
+});
+
+describe('commands/serve with baseURL', function () {
+  before(function() {
+    this.timeout(300000);
+    process.chdir('tests/dummy.with-base-url');
+    return runCommand('bower', 'install', { log: log })
+    .then(() => runCommand('npm', 'uninstall', 'ember-cli-open', { log: log }))
+    .then(() => runCommand('npm', 'install', { log: log }))
+    .then(() => runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log }));
+  });
+
+  after(function() {
+    process.chdir(path.join('..', '..'));
+  }),
+
+  beforeEach(cleanFakeOpener);
+
+  it('should be launched by default', function() {
+    this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
+    return runServer({
+      onChildSpawned: function () {
+        return delay(TIME_TO_WAIT_FOR_BUILD).then(function () {
+          var openerLaunchedCount = getOpenerLaunchedCount();
+          expect(openerLaunchedCount).to.equal(1, "Opener launched 1 time");
         });
       }
     });
