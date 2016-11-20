@@ -56,7 +56,7 @@ function runServer(commandOptions) {
   }
   commandOptions.killAfterChildSpawnedPromiseResolution = true;
 
-  let openValue;
+  var openValue;
   if (typeof commandOptions.open !== 'undefined') {
     if (typeof commandOptions.open === 'boolean') {
       openValue = commandOptions.open ? "true" : "false";
