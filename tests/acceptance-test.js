@@ -1,7 +1,21 @@
 'use strict';
 
-// var targetApp = 'test-target/some-app';
 var targetApp = 'tests/dummy';
+var fixturify = require('fixturify');
+
+let envConfigContent = function(overrides = {}) {
+  if (!('rootURL' in overrides) && !('baseURL' in overrides)) {
+    overrides.rootURL = '/';
+  }
+
+  return `module.exports = function(environment) {
+    return Object.assign({
+      modulePrefix: 'dummy',
+      environment: environment,
+      locationType: 'auto'
+    }, ${JSON.stringify(overrides)});
+  };`
+}
 
 var Promise = require("rsvp").Promise;
 var EOL = require("os").eol;
@@ -56,15 +70,11 @@ function runServer(commandOptions) {
   }
   commandOptions.killAfterChildSpawnedPromiseResolution = true;
 
-  var openValue;
-  if (typeof commandOptions.open !== 'undefined') {
-    if (typeof commandOptions.open === 'boolean') {
-      openValue = commandOptions.open ? "true" : "false";
-    } else {
-      openValue = commandOptions.open;
-    }
-    delete commandOptions.open;
+  var openValue = commandOptions.open;
+  if (typeof commandOptions.open === 'boolean') {
+    openValue = commandOptions.open ? "true" : "false";
   }
+  delete commandOptions.open;
 
   return new Promise(function(resolve, reject) {
     return runCommand(
@@ -98,30 +108,34 @@ describe('commands/serve', function () {
     this.timeout(300000);
     process.chdir(targetApp);
     return runCommand('bower', 'install', { log: log })
-    .then(function() {
-      return runCommand('npm', 'uninstall', 'ember-cli-open', { log: log });
-    })
-    .then(function() {
-      return runCommand('npm', 'install', { log: log });
-    })
-    .then(function() {
-      return runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log })
-    });
+      .then(() => runCommand('npm', 'uninstall', 'ember-cli-open', { log: log }) )
+      .then(() => runCommand('npm', 'install', { log: log }) )
+      .then(() => runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log }) );
   });
 
   after(function() {
+    fixturify.writeSync('config', {
+      'environment.js': envConfigContent()
+    });
     process.chdir(path.join('..', '..'));
   }),
 
   beforeEach(cleanFakeOpener);
 
-  it('should be launched by default', function() {
+  it('should open rootURL', function() {
     this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
+    fixturify.writeSync('config', {
+      'environment.js': envConfigContent({
+        rootURL: '/root-url'
+      })
+    });
+
     return runServer({
       onChildSpawned: function () {
         return delay(TIME_TO_WAIT_FOR_BUILD).then(function () {
           var launches = getOpenerLaunches();
           expect(launches.length).to.equal(1, "Opener launched 1 time");
+          expect(launches[0]).to.equal('http://localhost:4200/root-url/', "Opened with rootURL");
         });
       }
     });
@@ -129,6 +143,10 @@ describe('commands/serve', function () {
 
   it('should not be launched if open=false', function () {
     this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
+    fixturify.writeSync('config', {
+      'environment.js': envConfigContent()
+    });
+
     return runServer({
       open: false,
       onChildSpawned: function () {
@@ -139,38 +157,41 @@ describe('commands/serve', function () {
       }
     });
   });
-});
 
-describe('commands/serve with baseURL', function () {
-  before(function() {
-    this.timeout(300000);
-    process.chdir('tests/dummy.with-base-url');
-    return runCommand('bower', 'install', { log: log })
-    .then(function() {
-      return runCommand('npm', 'uninstall', 'ember-cli-open', { log: log });
-    })
-    .then(function() {
-      return runCommand('npm', 'install', { log: log });
-    })
-    .then(function() {
-      return runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log })
-    });
-  });
-
-  after(function() {
-    process.chdir(path.join('..', '..'));
-  }),
-
-  beforeEach(cleanFakeOpener);
-
-  it('should be launched by default', function() {
+  it('should open baseURL', function() {
     this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
+    fixturify.writeSync('config', {
+      'environment.js': envConfigContent({
+        baseURL: '/base-url'
+      })
+    });
+
     return runServer({
       onChildSpawned: function () {
         return delay(TIME_TO_WAIT_FOR_BUILD).then(function () {
           var launches = getOpenerLaunches();
           expect(launches.length).to.equal(1, "Opener launched 1 time");
-          expect(launches[0]).to.equal('http://localhost:4200/custom-path/', "Opened with baseURL");
+          expect(launches[0]).to.equal('http://localhost:4200/base-url/', "Opened with baseURL");
+        });
+      }
+    });
+  });
+
+  it('should open with startup path', function() {
+    this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
+    fixturify.writeSync('config', {
+      'environment.js': envConfigContent({
+        rootURL: '/root-url'
+      })
+    });
+
+    return runServer({
+      open: 'start-up/',
+      onChildSpawned: function () {
+        return delay(TIME_TO_WAIT_FOR_BUILD).then(function () {
+          var launches = getOpenerLaunches();
+          expect(launches.length).to.equal(1, "Opener launched 1 time");
+          expect(launches[0]).to.equal('http://localhost:4200/root-url/start-up/', "Opened with startup path");
         });
       }
     });

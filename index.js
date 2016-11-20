@@ -8,12 +8,7 @@ var displayHost = function(specifiedHost) {
 };
 
 var urlFromOptions = function(options) {
-  var rootURL;
-  if ('baseURL' in options) {
-    rootURL = options.baseURL === '' ? '/' : cleanBaseURL(options.baseURL);
-  } else {
-    rootURL = options.rootURL === '' ? '/' : cleanBaseURL(options.rootURL);
-  }
+  var rootURL = options.rootURL === '' ? '/' : cleanBaseURL(options.rootURL || options.baseURL);
 
   // extracted from https://github.com/ember-cli/ember-cli/blob/250987ec659201056f17f69482466b5360e03853/lib/tasks/server/express-server.js#L147
   var url = 'http' + (options.ssl ? 's' : '') +

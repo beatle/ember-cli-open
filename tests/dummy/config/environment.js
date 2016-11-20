@@ -1,10 +1,7 @@
-/* jshint node: true */
-
 module.exports = function(environment) {
-  return {
-    modulePrefix: 'dummy',
-    environment: environment,
-    rootURL: '/',
-    locationType: 'auto'
+    return Object.assign({
+      modulePrefix: 'dummy',
+      environment: environment,
+      locationType: 'auto'
+    }, {"rootURL":"/"});
   };
-};
