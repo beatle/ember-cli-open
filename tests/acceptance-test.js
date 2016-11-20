@@ -88,7 +88,9 @@ function runServer(commandOptions) {
 }
 
 function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise(function(resolve) {
+    setTimeout(resolve, ms);
+  });
 }
 
 describe('commands/serve', function () {
@@ -96,9 +98,15 @@ describe('commands/serve', function () {
     this.timeout(300000);
     process.chdir(targetApp);
     return runCommand('bower', 'install', { log: log })
-    .then(() => runCommand('npm', 'uninstall', 'ember-cli-open', { log: log }))
-    .then(() => runCommand('npm', 'install', { log: log }))
-    .then(() => runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log }));
+    .then(function() {
+      runCommand('npm', 'uninstall', 'ember-cli-open', { log: log });
+    })
+    .then(function() {
+      runCommand('npm', 'install', { log: log });
+    })
+    .then(function() {
+      runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log })
+    });
   });
 
   after(function() {
@@ -138,9 +146,15 @@ describe('commands/serve with baseURL', function () {
     this.timeout(300000);
     process.chdir('tests/dummy.with-base-url');
     return runCommand('bower', 'install', { log: log })
-    .then(() => runCommand('npm', 'uninstall', 'ember-cli-open', { log: log }))
-    .then(() => runCommand('npm', 'install', { log: log }))
-    .then(() => runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log }));
+    .then(function() {
+      runCommand('npm', 'uninstall', 'ember-cli-open', { log: log });
+    })
+    .then(function() {
+      runCommand('npm', 'install', { log: log });
+    })
+    .then(function() {
+      runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log })
+    });
   });
 
   after(function() {
