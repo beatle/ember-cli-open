@@ -8,7 +8,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "mocha tests/*.js && eslint ."
+    "test": "mocha tests/*-test.js && eslint ."
   },
   "main": "index.js",
   "files": [

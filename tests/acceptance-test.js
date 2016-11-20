@@ -4,6 +4,7 @@
 var targetApp = 'tests/dummy';
 
 var Promise = require("rsvp").Promise;
+var EOL = require("os").eol;
 var path = require('path');
 var fs = require('fs');
 
@@ -31,18 +32,22 @@ function cleanFakeOpener() {
     }
 }
 
-function getOpenerLaunchedCount() {
+function getOpenerLaunches() {
     var filePath = path.join(process.cwd(), 'fake-opener');
 
     try { // if exists
       fs.accessSync(filePath);
     } catch (e) {
-      return 0;
+      return [];
     }
 
     var fileContent = fs.readFileSync(filePath, { encoding:  'utf8' });
 
-    return (fileContent.match(/launched/mg) || []).length;
+    var lines = fileContent.split(EOL)
+      .map(function(line) { return line.trim(); })
+      .filter(function(line) { return !!line; });
+
+    return lines;
 }
 
 function runServer(commandOptions) {
@@ -107,8 +112,8 @@ describe('commands/serve', function () {
     return runServer({
       onChildSpawned: function () {
         return delay(TIME_TO_WAIT_FOR_BUILD).then(function () {
-          var openerLaunchedCount = getOpenerLaunchedCount();
-          expect(openerLaunchedCount).to.equal(1, "Opener launched 1 time");
+          var launches = getOpenerLaunches();
+          expect(launches.length).to.equal(1, "Opener launched 1 time");
         });
       }
     });
@@ -120,8 +125,8 @@ describe('commands/serve', function () {
       open: false,
       onChildSpawned: function () {
         return delay(TIME_TO_WAIT_FOR_BUILD).then(function () {
-          var openerLaunchedCount = getOpenerLaunchedCount();
-          expect(openerLaunchedCount).to.equal(0, "Opener not launched");
+          var launches = getOpenerLaunches();
+          expect(launches.length).to.equal(0, "Opener not launched");
         });
       }
     });
@@ -149,8 +154,9 @@ describe('commands/serve with baseURL', function () {
     return runServer({
       onChildSpawned: function () {
         return delay(TIME_TO_WAIT_FOR_BUILD).then(function () {
-          var openerLaunchedCount = getOpenerLaunchedCount();
-          expect(openerLaunchedCount).to.equal(1, "Opener launched 1 time");
+          var launches = getOpenerLaunches();
+          expect(launches.length).to.equal(1, "Opener launched 1 time");
+          expect(launches[0]).to.equal('http://localhost:4200/custom-path/', "Opened with baseURL");
         });
       }
     });
