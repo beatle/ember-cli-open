@@ -3,7 +3,11 @@
 var targetApp = 'tests/dummy';
 var fixturify = require('fixturify');
 
-let envConfigContent = function(overrides = {}) {
+let envConfigContent = function(overrides) {
+  if (!overrides) {
+    overrides = {};
+  }
+
   if (!('rootURL' in overrides) && !('baseURL' in overrides)) {
     overrides.rootURL = '/';
   }
