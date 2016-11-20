@@ -99,13 +99,13 @@ describe('commands/serve', function () {
     process.chdir(targetApp);
     return runCommand('bower', 'install', { log: log })
     .then(function() {
-      runCommand('npm', 'uninstall', 'ember-cli-open', { log: log });
+      return runCommand('npm', 'uninstall', 'ember-cli-open', { log: log });
     })
     .then(function() {
-      runCommand('npm', 'install', { log: log });
+      return runCommand('npm', 'install', { log: log });
     })
     .then(function() {
-      runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log })
+      return runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log })
     });
   });
 
@@ -147,13 +147,13 @@ describe('commands/serve with baseURL', function () {
     process.chdir('tests/dummy.with-base-url');
     return runCommand('bower', 'install', { log: log })
     .then(function() {
-      runCommand('npm', 'uninstall', 'ember-cli-open', { log: log });
+      return runCommand('npm', 'uninstall', 'ember-cli-open', { log: log });
     })
     .then(function() {
-      runCommand('npm', 'install', { log: log });
+      return runCommand('npm', 'install', { log: log });
     })
     .then(function() {
-      runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log })
+      return runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log })
     });
   });
 
