@@ -42,7 +42,8 @@
     "execa": "^0.8.0",
     "fixturify": "^0.3.2",
     "loader.js": "^4.0.0",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "tmp": "0.0.33"
   },
   "keywords": [
     "ember-addon"
