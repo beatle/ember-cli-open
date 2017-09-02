@@ -95,7 +95,6 @@ module.exports = function(defaults) {
   });
 
   it('should not be launched if open=false', function () {
-    console.log(process.cwd());
     this.timeout(TIME_TO_WAIT_FOR_BUILD + TIME_TO_WAIT_FOR_STARTUP);
     fixturify.writeSync('config', {
       'environment.js': envConfigContent()
