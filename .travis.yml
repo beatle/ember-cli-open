@@ -4,7 +4,6 @@ node_js:
   - "4"
   - "5"
   - "6"
-  - "7"
 
 sudo: false
 
@@ -16,8 +15,7 @@ matrix:
   fast_finish: true
 
 before_install:
-  - "npm config set progress false"
-  - "npm i -g npm@^3"
+  - "npm i -g npm@5"
 
 install:
   - npm i -g bower
