@@ -25,7 +25,7 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.5.0",
-    "ember-cli": "^2.8.0",
+    "ember-cli": "^2.15.0",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-babel": "^5.1.5",
     "ember-cli-dependency-checker": "^1.2.0",
