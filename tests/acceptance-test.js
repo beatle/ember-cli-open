@@ -2,6 +2,7 @@
 
 var targetApp = 'tests/dummy';
 var fixturify = require('fixturify');
+var execa = require('execa');
 
 let envConfigContent = function(overrides) {
   if (!overrides) {
@@ -84,6 +85,8 @@ function runServer(commandOptions) {
     return runCommand(
       path.join('.', 'node_modules', 'ember-cli', 'bin', 'ember'),
       'serve',
+      '--port 7124',
+      '--live-reload-port 23111',
       openValue ? ('--open=' + openValue) : '',
       commandOptions
     )
@@ -111,10 +114,10 @@ describe('commands/serve', function () {
   before(function() {
     this.timeout(300000);
     process.chdir(targetApp);
-    return runCommand('bower', 'install', { log: log })
-      .then(() => runCommand('npm', 'uninstall', 'ember-cli-open', { log: log }) )
-      .then(() => runCommand('npm', 'install', { log: log }) )
-      .then(() => runCommand('npm', 'install', '--save-dev', path.join('..', '..'), { log: log }) );
+    return execa('bower', ['install'])
+      .then(() => execa('npm', ['uninstall', 'ember-cli-open']) )
+      .then(() => execa('npm', ['install']) )
+      .then(() => execa('npm', ['install', '--save-dev', path.join('..', '..')]) );
   });
 
   after(function() {
