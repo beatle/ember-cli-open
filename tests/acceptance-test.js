@@ -114,10 +114,12 @@ describe('commands/serve', function () {
   before(function() {
     this.timeout(300000);
     process.chdir(targetApp);
-    return execa('bower', ['install'])
-      .then(() => execa('npm', ['uninstall', 'ember-cli-open']) )
-      .then(() => execa('npm', ['install']) )
-      .then(() => execa('npm', ['install', '--save-dev', path.join('..', '..')]) );
+    return execa('bower', ['install'], {
+      preferLocal: false
+    })
+    .then(() => execa('npm', ['install'], {
+      preferLocal: false
+    }))
   });
 
   after(function() {
