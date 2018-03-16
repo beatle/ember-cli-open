@@ -37,7 +37,7 @@ npm i --save-dev ember-cli-open
 ## Running
 
 * `ember open`
-* `ember serve --open=true`
+* `ember serve --open`
 
 ## Running Tests
 
